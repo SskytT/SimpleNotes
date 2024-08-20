@@ -15,7 +15,7 @@ class EmailVerification(models.Model):
     code = models.CharField(max_length=VERIFICATION_CODE_MAX_LENGTH)
     url = models.CharField(max_length=VERIFICATION_URL_MAX_LENGTH, unique=True)
     created_time = models.DateTimeField(default=get_created_date)
-    expired_time = models.DateTimeField(default=get_expiration_date)
+    expired_time = models.DateTimeField(default=get_expiration_date(VERIFICATION_CODE_LIFE_TIME))
     attempts = models.IntegerField(default=0)
 
     def __str__(self):
@@ -48,7 +48,7 @@ class EmailVerification(models.Model):
         if EmailVerification.objects.filter(url=url).exists():
             print("залупа")
             ev = EmailVerification.objects.get(url=url)
-            if ev.attempts < 5:
+            if ev.attempts < COUNT_VERIFICATION_ATTEMPTS:
                 ev.attempts += 1
                 ev.save()
                 if ev.code == code:

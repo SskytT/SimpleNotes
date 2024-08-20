@@ -1,8 +1,8 @@
-from django.shortcuts import render
 from ..models.user import User
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from ..serializers import RegistrationSerializer, VerificationSerializer
+
 
 class RegistrationAPIView(APIView):
     def post(self, request):
@@ -12,7 +12,10 @@ class RegistrationAPIView(APIView):
             url = User.registration(email=serializer.validated_data.get('email'),
                                     password=serializer.validated_data.get('password'),
                                     nickname=serializer.validated_data.get('nickname'))
-            return Response({"url": url})
+            if url is None:
+                return Response({"answer": "wait for next request"})
+            else:
+                return Response({"url": url})
         return Response({"error": "this email already exists"})
 
     def get(self, request, *args, **kwargs):

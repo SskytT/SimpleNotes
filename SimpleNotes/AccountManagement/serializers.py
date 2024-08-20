@@ -12,3 +12,7 @@ class RegistrationSerializer(serializers.Serializer):
 class VerificationSerializer(serializers.Serializer):
     code = serializers.CharField(max_length=VERIFICATION_CODE_MAX_LENGTH)
 
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(max_length=PASSWORD_MAX_LENGTH)
+

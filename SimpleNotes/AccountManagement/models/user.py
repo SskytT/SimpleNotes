@@ -1,7 +1,7 @@
 from django.db import models
 from SimpleNotes.settings import PASSWORD_MAX_LENGTH
 from SimpleNotes.settings import NICKNAME_MAX_LENGTH
-from ..utils import create_hash_password
+from ..utils import create_hash_password, check_password
 from .email_verification import EmailVerification
 
 
@@ -26,7 +26,10 @@ class User(models.Model):
     @staticmethod
     def registration(email, password, nickname):
         ev = EmailVerification.create(email=email, password=password, nickname=nickname)
-        ev.send_ver_mail()
+        if ev is None:
+            return None
+        else:
+            ev.send_ver_mail()
         return ev.url
 
     @staticmethod
@@ -38,4 +41,12 @@ class User(models.Model):
             user = User.create(email=ev.email, password=ev.password, nickname=ev.nickname)
             ev.delete()
             return user
+
+    @staticmethod
+    def get_user(email, password):
+        if User.objects.filter(email=email).exists():
+            user = User.objects.get(email=email)
+            if check_password(password, user.password):
+                return user
+        return None
 
