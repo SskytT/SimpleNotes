@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -123,6 +124,21 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Mail Options
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'regmail21@yandex.ru'
+EMAIL_HOST_PASSWORD = 'kokarao4k4o2gfo34ookorolteranovtoosnoob'
+DEFAULT_FROM_EMAIL = 'regmail21@yandex.ru'
+
 # My Options
 PASSWORD_MAX_LENGTH = 200
 NICKNAME_MAX_LENGTH = 100
+VERIFICATION_CODE_MAX_LENGTH = 6
+VERIFICATION_CODE_LIFE_TIME = timedelta(minutes=5)
+REPEAT_VER_MIN_TIME = timedelta(minutes=1)
+VERIFICATION_URL_MAX_LENGTH = 50
+COUNT_VERIFICATION_ATTEMPTS = 5
