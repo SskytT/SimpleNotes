@@ -1,0 +1,12 @@
+meta:
+  environment: docker
+  toolchain:
+    name: docker
+    version: latest
+build:
+  skip: false
+  dockerfile: docker-compose.yml
+run:
+  persistenceMount: /data
+  containerPort: 80
+  command: docker-compose up --build
