@@ -16,5 +16,5 @@ class LoginAPIView(APIView):
         ak = APIKey.get(user)
         if ak is None:
             return Response({"answer": "no key"})
-        return Response({"key": ak.key})
+        return Response({"answer": "login", "key": ak.key})
 

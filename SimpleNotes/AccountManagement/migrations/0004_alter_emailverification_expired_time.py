@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='emailverification',
             name='expired_time',
-            field=models.DateTimeField(default=AccountManagement.utils.get_expiration_date),
+            field=models.DateTimeField(default=AccountManagement.utils.get_verification_code_expiration_date),
         ),
     ]

@@ -1,0 +1,19 @@
+/* В App.css или styles.css */
+.fixed-buttons {
+    position: fixed; /* Фиксированное позиционирование */
+    bottom: 20px;    /* Отступ от нижнего края экрана */
+    right: 20px;     /* Отступ от правого края экрана */
+    display: flex;
+    flex-direction: column; /* Располагаем кнопки вертикально */
+    align-items: flex-end; /* Выравниваем кнопки по правому краю */
+    max-width: 250px; /* Максимальная ширина блока, можно настроить по необходимости */
+}
+
+.fixed-buttons .btn {
+    width: 100%; /* Кнопки будут занимать всю ширину контейнера */
+    margin-bottom: 10px; /* Отступ между кнопками */
+}
+
+.fixed-buttons .btn:last-child {
+    margin-bottom: 0; /* Убираем отступ у последней кнопки */
+}

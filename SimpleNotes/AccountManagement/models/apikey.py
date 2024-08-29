@@ -1,7 +1,7 @@
 from django.db import models
 from .user import User
 from SimpleNotes.settings import API_KEY_MAX_LENGTH, API_KEY_LIFE_TIME, API_KEY_ALLOWED_CHARS
-from ..utils import get_expiration_date
+from ..utils import get_api_key_expiration_date
 from django.utils.crypto import get_random_string
 from django.utils import timezone
 
@@ -9,7 +9,7 @@ from django.utils import timezone
 class APIKey(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     key = models.CharField(max_length=API_KEY_MAX_LENGTH, unique=True)
-    expired_time = models.DateTimeField(default=get_expiration_date(API_KEY_LIFE_TIME))
+    expired_time = models.DateTimeField(default=get_api_key_expiration_date)
 
     def __str__(self):
         return self.user.email
@@ -36,7 +36,7 @@ class APIKey(models.Model):
             while True:
                 key = get_random_string(API_KEY_MAX_LENGTH, allowed_chars=API_KEY_ALLOWED_CHARS)
                 if not APIKey.objects.filter(key=key).exists():
-                    et = get_expiration_date(API_KEY_LIFE_TIME)
+                    et = get_api_key_expiration_date()
                     ak = APIKey.objects.create(user=user, key=key, expired_time=et)
                     return ak
         return None

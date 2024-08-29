@@ -38,10 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'AccountManagement.apps.AccountManagementConfig'
+    'AccountManagement.apps.AccountManagementConfig',
+    'Notes.apps.NotesConfig',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -49,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'AccountManagement.middleware.AuthMiddleware',
 ]
 
 ROOT_URLCONF = 'SimpleNotes.urls'
@@ -124,6 +128,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+CORS_ALLOW_ALL_ORIGINS = True
+
 # Mail Options
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = False
@@ -143,5 +149,9 @@ REPEAT_VER_MIN_TIME = timedelta(minutes=1)
 VERIFICATION_URL_MAX_LENGTH = 50
 COUNT_VERIFICATION_ATTEMPTS = 5
 API_KEY_MAX_LENGTH = 150
-API_KEY_LIFE_TIME = timedelta(minutes=2)
+API_KEY_LIFE_TIME = timedelta(days=30)
 API_KEY_ALLOWED_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+GROUP_NAME_MAX_LENGTH = 200
+NOTE_NAME_MAX_LENGTH = 200
+NOTE_MAX_LENGTH = 100000
+

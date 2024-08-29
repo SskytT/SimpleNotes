@@ -4,7 +4,7 @@ from SimpleNotes.settings import REPEAT_VER_MIN_TIME, VERIFICATION_CODE_LIFE_TIM
 from SimpleNotes.settings import COUNT_VERIFICATION_ATTEMPTS
 from django.utils import timezone
 from django.utils.crypto import get_random_string
-from ..utils import get_expiration_date, get_created_date
+from ..utils import get_verification_code_expiration_date, get_created_date
 from django.core.mail import send_mail
 
 
@@ -15,7 +15,7 @@ class EmailVerification(models.Model):
     code = models.CharField(max_length=VERIFICATION_CODE_MAX_LENGTH)
     url = models.CharField(max_length=VERIFICATION_URL_MAX_LENGTH, unique=True)
     created_time = models.DateTimeField(default=get_created_date)
-    expired_time = models.DateTimeField(default=get_expiration_date(VERIFICATION_CODE_LIFE_TIME))
+    expired_time = models.DateTimeField(default=get_verification_code_expiration_date)
     attempts = models.IntegerField(default=0)
 
     def __str__(self):

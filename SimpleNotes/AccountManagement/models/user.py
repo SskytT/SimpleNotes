@@ -50,3 +50,27 @@ class User(models.Model):
                 return user
         return None
 
+    @staticmethod
+    def request_password_recovery(email, password):
+        if User.objects.filter(email=email).exists():
+            ev = EmailVerification.create(email=email, password=password, nickname='')
+            if ev is None:
+                return None
+            ev.send_ver_mail()
+            return ev.url
+        return None
+
+    @staticmethod
+    def password_recovery_verification(url, code):
+        ev = EmailVerification.check_code(url, code)
+        if ev is None:
+            return None
+        else:
+            user = User.objects.get(email=ev.email)
+            hash_pass = create_hash_password(ev.password)
+            user.password = hash_pass
+            user.save()
+            ev.delete()
+            return user
+
+
