@@ -1,18 +1,15 @@
-# Используем официальный образ Node.js
-FROM node:20-alpine
+# Используем базовый образ Nginx
+FROM nginx:alpine
 
-# Устанавливаем рабочую директорию
-WORKDIR /app
+# Копируем файлы из папки build в папку Nginx
+COPY ./build /usr/share/nginx/html
 
-# Копируем файлы зависимостей
-COPY package.json ./
-COPY package-lock.json ./
+# Копируем кастомный nginx.conf
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
-# Устанавливаем зависимости
-RUN npm install --frozen-lockfile
 
-# Копируем остальные файлы проекта
-COPY . .
+# Экспонируем порт 80
+EXPOSE 80
 
-# Определяем команду запуска
-CMD ["npm", "start"]
+# Запуск Nginx
+CMD ["nginx", "-g", "daemon off;"]

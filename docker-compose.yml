@@ -1,8 +1,19 @@
-version: "3.9"
+version: '3.8'
 
 services:
-  django:
-    container_name: django_app
+  simple-notes:
+    build:
+      context: ./simple-notes
+    ports:
+      - "443:443"
+      - "80:80"
+    volumes:
+      - ./simple-notes/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./certs:/etc/nginx/certs
+    networks:
+      - webnet
+
+  backend:
     build:
       context: ./SimpleNotes
     command: >
@@ -12,27 +23,9 @@ services:
       - ./SimpleNotes:/app
     ports:
       - "8000:8000"
+    networks:
+      - webnet
 
-  react:
-    container_name: react_app
-    build:
-      context: ./simple-notes
-    volumes:
-      - ./simple-notes/src:/app/src
-    ports:
-      - "3000:3000"
-    command: >
-      sh -c "npm start"
-
-  nginx:
-    container_name: nginx
-    image: nginx:alpine
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./default.conf:/etc/nginx/conf.d/default.conf
-      - ./certs:/etc/nginx/certs
-    depends_on:
-      - django
-      - react
+networks:
+  webnet:
+    driver: bridge
