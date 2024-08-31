@@ -12,6 +12,8 @@ services:
       - ./certs:/etc/nginx/certs
     networks:
       - webnet
+    depends_on:
+      - backend  # Убедимся, что backend запускается раньше
 
   backend:
     build:
@@ -21,10 +23,10 @@ services:
              gunicorn SimpleNotes.wsgi:application --bind 0.0.0.0:8000"
     volumes:
       - ./SimpleNotes:/app
-    ports:
-      - "8000:8000"
     networks:
       - webnet
+    expose:
+      - "8000"  # Открываем порт для общения внутри сети webnet
 
 networks:
   webnet:

@@ -16,7 +16,19 @@ RUN apk update \
 COPY requirements.txt /app/requirements.txt
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
+RUN apk update && \
+    apk add --no-cache \
+    nginx
 
 
 # copy project
 COPY . .
+
+COPY ./nginx.conf /etc/nginx/nginx.conf
+
+# Копируем SSL-сертификаты
+COPY ./certs/cert.pem /etc/ssl/certs/
+COPY ./certs/key.pem /etc/ssl/private/
+
+# Команда запуска Nginx и Django
+CMD ["sh", "-c", "nginx && gunicorn SimpleNotes.wsgi:application --bind 0.0.0.0:8000"]

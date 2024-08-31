@@ -19,9 +19,13 @@ class AuthMiddleware:
         self.verification_pattern = re.compile(r'^/api/v1/registration/[^/]+/$')
         self.change_pass_verification_pattern = re.compile(r'^/api/v1/changepass/[^/]+/$')
         self.admin_pattern = re.compile(r'^/admin')
+        self.admin_pattern_2 = re.compile(r'^/api/admin')
 
     def __call__(self, request):
-        if request.path in self.exempt_urls or self.verification_pattern.match(request.path) or self.admin_pattern.match(request.path) or self.change_pass_verification_pattern.match(request.path):
+        if (request.path in self.exempt_urls or self.verification_pattern.match(request.path) or
+                self.admin_pattern.match(request.path) or
+                self.change_pass_verification_pattern.match(request.path) or
+                self.admin_pattern_2.match(request.path)):
             return self.get_response(request)
 
         if "authorization" in request.headers:
