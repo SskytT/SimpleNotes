@@ -22,3 +22,5 @@
 Сервер был успешно запущен на хостинге. 
 
 **Ссылка на запущенный на хостинге сайт**: https://regmail21.fvds.ru/ (в данный момент не работает, так как не оплачен).
+![image](https://github.com/user-attachments/assets/55d3fbb4-c9a9-4d9d-b87d-262c67cddc29)
+![image](https://github.com/user-attachments/assets/3fd789e7-cf07-4b55-bfd0-9a8f41390409)
